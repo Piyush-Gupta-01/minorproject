@@ -1,0 +1,96 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: edurace-platform
+    
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://localhost:3306/edurace_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        
+  # Security Configuration
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:your-google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:your-google-client-secret}
+            scope:
+              - email
+              - profile
+              
+  # Mail Configuration
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME:your-email@gmail.com}
+    password: ${EMAIL_PASSWORD:your-app-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:mySecretKey}
+  expiration: 86400000 # 24 hours
+  refresh-expiration: 604800000 # 7 days
+  
+# Payment Configuration
+payment:
+  razorpay:
+    key-id: ${RAZORPAY_KEY_ID:your-razorpay-key}
+    key-secret: ${RAZORPAY_KEY_SECRET:your-razorpay-secret}
+  stripe:
+    public-key: ${STRIPE_PUBLIC_KEY:your-stripe-public-key}
+    secret-key: ${STRIPE_SECRET_KEY:your-stripe-secret-key}
+    
+# SMS/OTP Configuration
+sms:
+  twilio:
+    account-sid: ${TWILIO_ACCOUNT_SID:your-twilio-sid}
+    auth-token: ${TWILIO_AUTH_TOKEN:your-twilio-token}
+    phone-number: ${TWILIO_PHONE_NUMBER:your-twilio-phone}
+    
+# Application Configuration
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:3000}
+  quiz:
+    default-time-limit: 1800 # 30 minutes in seconds
+    passing-score-percentage: 70
+  gamification:
+    points:
+      quiz-completion: 100
+      lesson-completion: 50
+      daily-streak: 10
+    leaderboard:
+      update-interval: 30000 # 30 seconds
+      
+# Logging Configuration
+logging:
+  level:
+    com.edurace.platform: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
