@@ -95,4 +95,4 @@ edurace-platform/
 
 ## 📝 License
 
-*License information to be added*
+*License information to be added*# minorproject
